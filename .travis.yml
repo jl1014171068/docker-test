@@ -2,3 +2,10 @@ language: node_js
 node_js:
   - "iojs"
   - "7"
+
+before_install:
+  - npm i -g npm@version-number
+
+cache:
+  directories:
+    - "node_modules"    
