@@ -1,14 +1,8 @@
-FROM node:8.2.1
-MAINTAINER stark.wang
-ENV NODE_ENV=production
-ENV HOST 0.0.0.0
-RUN mkdir -p /app
-COPY . /app
+FROM node:6.10.3-slim
+RUN apt-get update \    && apt-get install -y nginx
 WORKDIR /app
-EXPOSE 3000
-#If the environment in China build please open the following comments
-#如果在中国环境下构建请把下面注释打开
-#RUN npm config set registry https://registry.npm.taobao.org
-RUN npm install
-RUN npm run build
-CMD ["npm", "start"]
+COPY . /app/
+EXPOSE 80
+RUN  npm install \     && npm run build \     && cp -r dist/* /var/www/html \     && rm -rf /app
+CMD ["nginx","-g","daemon off;"]
+
